@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'Model/top_box_office_model.dart';
 
 class ListViewPage extends StatelessWidget {
   const ListViewPage({super.key});
@@ -11,12 +13,13 @@ class ListViewPage extends StatelessWidget {
         centerTitle: true,
       ),
     body: ListView.builder(
-        itemCount: 15,
+        itemCount: topBoxOfficeList.length,
         itemBuilder:(BuildContext context, int index){
+          final topBoxOfficeData = topBoxOfficeList[index];
           return ListTile(
-            leading: Icon(Icons.plus_one),
-            title: Text('Happy Nation'),
-            subtitle: Text('\$6.9M'),
+            leading: Icon(topBoxOfficeData.icon),
+            title: Text(topBoxOfficeData.title ?? 'Title'),
+            subtitle: Text('\$ ${topBoxOfficeData.revenue} M'),
           );
         }
     )
