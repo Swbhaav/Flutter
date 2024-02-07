@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form/service/dio_service.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -8,6 +9,12 @@ class Dashboard extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('List'),
+        actions: [
+          GestureDetector(child: Icon(Icons.star_border_outlined),onTap: (){
+            final dioService= DioService();
+            dioService.getSampleData();
+          },),
+        ],
       ),
       body: Column(children: [
         Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQit7M8xus6aTFyuKlFIJVsXulrfOE7--gRrw&usqp=CAU',width: 150, height: 150,),
