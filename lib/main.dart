@@ -1,5 +1,6 @@
 import 'dart:js';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:form/Login.dart';
 import 'package:form/dashboard.dart';
@@ -8,6 +9,7 @@ import 'package:form/profile.dart';
 import 'package:form/regestration_Form.dart';
 import 'package:form/list_view_page.dart';
 import 'package:form/splash.dart';
+import 'package:form/utils/default_firebase_options.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -26,6 +28,9 @@ void main() {
     initialRoute: '/',
     debugShowCheckedModeBanner: false,
   ));
+}
+void initializeFirebase()async{
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.web );
 }
 
 class MyApp extends StatefulWidget {
