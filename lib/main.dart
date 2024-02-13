@@ -1,7 +1,10 @@
+import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:form/Login.dart';
 import 'package:form/dashboard.dart';
+import 'package:form/offers.dart';
+import 'package:form/profile.dart';
 import 'package:form/regestration_Form.dart';
 import 'package:form/list_view_page.dart';
 import 'package:form/splash.dart';
@@ -14,50 +17,68 @@ void main() {
     ),
     routes: {
       '/': (context) => splash(),
-      '/register':(context)=>RegistrationForm(),
-      '/login':(context)=>const Login(),
-      '/dashboard':(context)=>const Dashboard(),
-      '/list-view-page':(context)=> const ListViewPage(),
-
+      '/register': (context) => RegistrationForm(),
+      '/login': (context) => Login(),
+      '/dashboard': (context) => Dashboard(),
+      '/list-view-page': (context) => ListViewPage(),
+      '/mainApp': (context) => MyApp(),
     },
     initialRoute: '/',
     debugShowCheckedModeBanner: false,
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final pages = [
+    Dashboard(),
+    ListViewPage(),
+    offerPage(),
+    profilePage(),
+  ];
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sample App'), centerTitle: true),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.connecting_airports_outlined),
-        onPressed: () {},
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.dashboard),
+            label: 'Dahsboard',
+            backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'List-View',
+            backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_offer),
+            label: 'Offers',
+            backgroundColor: Colors.blue,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+            backgroundColor: Colors.blue,
+          ),
+        ],
+        onTap: (index) {
+          print('Selected index $index');
+          setState(() {
+            _currentIndex=index;
+          });
+        },
+        currentIndex: _currentIndex,
       ),
-      //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(onPressed: () => Navigator.of(context).pushNamed('/login'),
-                child: const Text('Login')),
-            const SizedBox(width: 25,),
-            ElevatedButton(onPressed: ()=> Navigator.of(context).pushNamed('/register'),
-                child: const Text('Register')),
-            const SizedBox(width: 25,),
-            ElevatedButton(onPressed: ()=> Navigator.of(context).pushNamed('/dashboard'),
-                child: const Text('Dashboard')),
-            const SizedBox(width: 25,),
-            ElevatedButton(onPressed: ()=> Navigator.of(context).pushNamed('/list-view-page'),
-                child: const Text('List viewPage'))
-          ],
-        ),
-      ),
+      body: pages.elementAt(_currentIndex),
     );
   }
 }
-
-
