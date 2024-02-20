@@ -13,7 +13,7 @@ class splash extends StatefulWidget {
 class _splashState extends State<splash> {
   @override
   void initState() {
-    Timer(Duration(seconds: 5),()=> Navigator.of(context).pushNamed('/register'));
+    Timer(Duration(seconds: 5),()=> Navigator.of(context).pushReplacementNamed('/login'));
     super.initState();
   }
   Widget build(BuildContext context) {

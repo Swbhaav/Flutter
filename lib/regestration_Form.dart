@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:form/service/firebase_auth_dart.dart';
+import 'package:form/service/firebase_auth_service.dart';
 
 class RegistrationForm extends StatelessWidget {
    RegistrationForm({super.key});
@@ -107,7 +107,7 @@ class RegistrationForm extends StatelessWidget {
                         final password = _passwordController.text;
 
                         final firebaseAuthService = FirebaseAuthService();
-                        firebaseAuthService.creatUserWithEmailAndPassword(email, password);
+                        firebaseAuthService.createUserWithEmailAndPassword(email, password);
                       }
                     }
                   },

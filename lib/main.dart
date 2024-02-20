@@ -1,4 +1,4 @@
-import 'dart:js';
+
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -30,8 +30,16 @@ void main() {
   ));
 }
 void initializeFirebase()async{
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.web );
+  await Firebase.initializeApp(options: const FirebaseOptions(
+      apiKey: "AIzaSyAEVhpA-ZgTd6ihtdqpV7tuxAywzaEhmHg",
+      authDomain: "form-flutter-9a313.firebaseapp.com",
+      projectId: "form-flutter-9a313",
+      storageBucket: "form-flutter-9a313.appspot.com",
+      messagingSenderId: "1078600322269",
+      appId: "1:1078600322269:web:dd90e965e25ed6b91b1f34"
+  ) );
 }
+
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -47,6 +55,7 @@ class _MyAppState extends State<MyApp> {
     offerPage(),
     profilePage(),
   ];
+
   int _currentIndex = 0;
 
   @override
@@ -56,29 +65,26 @@ class _MyAppState extends State<MyApp> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
-            label: 'Dahsboard',
+            label: 'Dashboard',
             backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            label: 'List-View',
-            backgroundColor: Colors.blue,
+            label: 'ListView',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_offer),
             label: 'Offers',
-            backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            backgroundColor: Colors.blue,
           ),
         ],
         onTap: (index) {
-          print('Selected index $index');
+          print('Selected Index $index');
           setState(() {
-            _currentIndex=index;
+            _currentIndex = index;
           });
         },
         currentIndex: _currentIndex,
