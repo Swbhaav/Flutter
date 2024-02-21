@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:form/service/firebase_auth_service.dart';
 
 class Login extends StatefulWidget {
-  Login({super.key});
+   const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -118,7 +118,7 @@ class _LoginState extends State<Login> {
                 FractionallySizedBox(
                   widthFactor: 0.3,
                   child: ElevatedButton(
-                    onPressed: ()=> Navigator.of(context).pushNamed('/register'),
+                    onPressed: ()=> Navigator.of(context).pushNamed('/Register'),
                     child:Text('Signup'),
                   ),
                 )

@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:form/list_view_page.dart';
 import 'package:form/dashboard.dart';
 import 'package:form/login.dart';
@@ -16,15 +18,16 @@ void main() {
       useMaterial3: false,
       colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
     ),
+    initialRoute: '/',
     routes: {
       '/': (context) => splash(),
-      '/registration_form': (context) => RegistrationForm(),
-      '/login_Form': (context) => Login(),
-      '/dashboard': (context) => Dashboard(),
-      '/List_view': (context) => ListViewPage(),
+      '/Register': (context) => RegistrationForm(),
+      '/Login': (context) => Login(),
+      '/Dashboard': (context) => Dashboard(),
+      '/List_view': (context) => ListView(),
       '/mainApp': (context) => MyApp(),
     },
-    initialRoute: '/',
+
     debugShowCheckedModeBanner: false,
   ));
 }
