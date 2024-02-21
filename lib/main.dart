@@ -1,17 +1,16 @@
-
-
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:form/Login.dart';
+import 'package:form/list_view_page.dart';
 import 'package:form/dashboard.dart';
+import 'package:form/login.dart';
 import 'package:form/offers.dart';
 import 'package:form/profile.dart';
-import 'package:form/regestration_Form.dart';
-import 'package:form/list_view_page.dart';
 import 'package:form/splash.dart';
 import 'package:form/utils/default_firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:form/registrationForm.dart';
 
 void main() {
+  initializeFirebase();
   runApp(MaterialApp(
     theme: ThemeData(
       useMaterial3: false,
@@ -19,30 +18,23 @@ void main() {
     ),
     routes: {
       '/': (context) => splash(),
-      '/register': (context) => RegistrationForm(),
-      '/login': (context) => Login(),
+      '/registration_form': (context) => RegistrationForm(),
+      '/login_Form': (context) => Login(),
       '/dashboard': (context) => Dashboard(),
-      '/list-view-page': (context) => ListViewPage(),
+      '/List_view': (context) => ListViewPage(),
       '/mainApp': (context) => MyApp(),
     },
     initialRoute: '/',
     debugShowCheckedModeBanner: false,
   ));
 }
-void initializeFirebase()async{
-  await Firebase.initializeApp(options: const FirebaseOptions(
-      apiKey: "AIzaSyAEVhpA-ZgTd6ihtdqpV7tuxAywzaEhmHg",
-      authDomain: "form-flutter-9a313.firebaseapp.com",
-      projectId: "form-flutter-9a313",
-      storageBucket: "form-flutter-9a313.appspot.com",
-      messagingSenderId: "1078600322269",
-      appId: "1:1078600322269:web:dd90e965e25ed6b91b1f34"
-  ) );
+
+void initializeFirebase() async{
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.web);
 }
 
-
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -70,15 +62,18 @@ class _MyAppState extends State<MyApp> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
-            label: 'ListView',
+            label: 'List View',
+            backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.local_offer),
+            icon: Icon(Icons.notifications),
             label: 'Offers',
+            backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
+            backgroundColor: Colors.blue,
           ),
         ],
         onTap: (index) {
@@ -89,6 +84,7 @@ class _MyAppState extends State<MyApp> {
         },
         currentIndex: _currentIndex,
       ),
+
       body: pages.elementAt(_currentIndex),
     );
   }

@@ -1,27 +1,27 @@
+
 import 'package:flutter/material.dart';
 import 'package:form/service/firebase_auth_service.dart';
 
 class RegistrationForm extends StatelessWidget {
-   RegistrationForm({super.key});
+  RegistrationForm({super.key});
   final _formKey = GlobalKey<FormState>();
   final _fullNameController = TextEditingController();
   final _emailAddressController = TextEditingController();
   final _passwordController = TextEditingController();
   final _streetAddressController = TextEditingController();
-  final _emailRegexPattern =
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+  final _emailRegexPattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Register'),
+        title: Text('Register'),
         centerTitle: true,
       ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.only(left: 20, top: 20),
+            padding: EdgeInsets.only(left: 20, top: 20),
             width: MediaQuery.of(context).size.width / 2,
             child: Column(
               children: [
@@ -29,7 +29,7 @@ class RegistrationForm extends StatelessWidget {
                   controller: _fullNameController,
                   keyboardType: TextInputType.name,
                   maxLength: 50,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Enter your name",
                   ),
@@ -44,7 +44,7 @@ class RegistrationForm extends StatelessWidget {
                   controller: _emailAddressController,
                   keyboardType: TextInputType.emailAddress,
                   maxLength: 90,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Enter your Email",
                   ),
@@ -64,7 +64,7 @@ class RegistrationForm extends StatelessWidget {
                   keyboardType: TextInputType.visiblePassword,
                   maxLength: 20,
                   obscureText: true,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Password",
                   ),
@@ -75,13 +75,13 @@ class RegistrationForm extends StatelessWidget {
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 TextFormField(
                   controller: _streetAddressController,
                   keyboardType: TextInputType.streetAddress,
                   maxLength: 30,
                   maxLines: 4,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Enter address",
                   ),
@@ -92,13 +92,13 @@ class RegistrationForm extends StatelessWidget {
                     return null;
                   },
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 ListTile(
-                    title: const Text('this is listTile'),
-                    subtitle: const Text('This is subtitle'),
+                    title: Text('this is listTile'),
+                    subtitle: Text('This is subtitle'),
                     leading: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa14vJmR5wBRZZEydhuuDSIceDoCd8fMrkXw&usqp=CAU')
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState != null) {
@@ -111,7 +111,7 @@ class RegistrationForm extends StatelessWidget {
                       }
                     }
                   },
-                  child: const Text("Submit"),
+                  child: Text("Submit"),
                 ),
               ],
             ),
@@ -119,5 +119,6 @@ class RegistrationForm extends StatelessWidget {
         ),
       ),
     );
+
   }
 }
