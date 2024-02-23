@@ -29,6 +29,7 @@ class _LoginState extends State<Login> {
         child: Column(
           children: [
             TextFormField(
+              controller: _usernameController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -40,6 +41,7 @@ class _LoginState extends State<Login> {
               height: 20,
             ),
             TextFormField(
+              controller: _passwordController,
               obscureText: true,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
@@ -90,6 +92,7 @@ class _LoginState extends State<Login> {
                           final User? user = await firebaseAuthService.loginWithEmailAndPassword(username, password);
                           if(user != null){
                             print('login successful');
+                            Navigator.of(context).pushNamed('/Profile');
                           }else{
                             print('login error');
                           }

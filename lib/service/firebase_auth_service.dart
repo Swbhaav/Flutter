@@ -24,5 +24,14 @@ class FirebaseAuthService{
     }
     return null;
   }
+  ///This function is used to logout user from firebase
+  void signOutUser()async{
+    try{
+      _auth.signOut();
+    }
+    catch(e){
+      print('Error while Signout $e');
+    }
+  }
 
 }

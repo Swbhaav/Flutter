@@ -4,7 +4,7 @@ import 'package:form/list_view_page.dart';
 import 'package:form/dashboard.dart';
 import 'package:form/login.dart';
 import 'package:form/offers.dart';
-import 'package:form/profile.dart';
+import 'package:form/Profile/profile.dart';
 import 'package:form/splash.dart';
 import 'package:form/utils/default_firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,6 +26,7 @@ void main() {
       '/Dashboard': (context) => Dashboard(),
       '/List_view': (context) => ListView(),
       '/mainApp': (context) => MyApp(),
+      '/Profile': (context) => profilePage(),
     },
 
     debugShowCheckedModeBanner: false,

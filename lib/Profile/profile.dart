@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form/Profile/profile_view.dart';
 import 'package:form/service/firebase_database_service.dart';
 
 class profilePage extends StatelessWidget {
@@ -21,13 +22,13 @@ class profilePage extends StatelessWidget {
             }
             if (snapshot.connectionState == ConnectionState.done) {
               usersList = snapshot.data as List;
-              return Center(
-                child: Text('${usersList[0]}'),
-              );
+              return ProfileView() ;
             }
             return Center(
               child: SizedBox(
                 child: CircularProgressIndicator(),
+                height: 50,
+                width: 50,
               ),
             );
           },
