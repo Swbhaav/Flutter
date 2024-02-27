@@ -50,6 +50,7 @@ class ProfileView extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
+
                         topRight: Radius.circular(30)),
                   ),
                   child: Center(
