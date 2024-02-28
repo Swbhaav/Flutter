@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthService{
@@ -32,6 +34,21 @@ class FirebaseAuthService{
     catch(e){
       print('Error while Signout $e');
     }
+  }
+
+  Future<User?>getLoggedInUser()async{
+    //Create a completer to handel asynchronous operation
+    Completer<User?> completer= Completer<User?>();
+    _auth.authStateChanges().listen((User? user) {
+      if(user != null){
+        completer.complete(user);
+    }else{
+        print('User is signed out!');
+        completer.complete(null);
+    }
+    });
+    //return the future from the completer
+    return completer.future;
   }
 
 }

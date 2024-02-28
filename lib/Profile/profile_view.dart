@@ -57,58 +57,7 @@ class ProfileView extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 20),
-                child: Container(
-                 // height: 25,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0,5),
-                        color: Colors.black87,
-                        spreadRadius: 2,
-                        blurRadius: 10,
-                      ),
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListTile(
-                    title: Text('Setting'),
-                    leading: Icon(Icons.settings),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 20),
-                child: Container(
-                  // height: 25,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(0,5),
-                        color: Colors.black87,
-                        spreadRadius: 2,
-                        blurRadius: 10,
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ListTile(
-                    title: Text('Notification'),
-                    leading: Icon(Icons.notifications),
-                    trailing: Icon(Icons.arrow_forward_ios),
-                  ),
-                ),
-              ),
+
             ],
           ),
         ),

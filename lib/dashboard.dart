@@ -28,7 +28,7 @@ class Dashboard extends StatelessWidget {
                           child: Text('Yes'),
                           onTap: (){
                             final firebaseAuthService = FirebaseAuthService();
-                            //firebaseAuthService.signOutUser();
+                            firebaseAuthService.signOutUser();
                             Navigator.of(dialogContext).pop();
                             Navigator.of(dashboardContext).pushReplacementNamed('/Login');
                           },

@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -13,9 +12,11 @@ class splash extends StatefulWidget {
 class _splashState extends State<splash> {
   @override
   void initState() {
-    Timer(Duration(seconds: 5),()=> Navigator.of(context).pushReplacementNamed('/Profile'));
+    Timer(Duration(seconds: 5),
+        () => Navigator.of(context).pushReplacementNamed('/mainApp'));
     super.initState();
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
