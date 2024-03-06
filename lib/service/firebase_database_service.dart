@@ -55,13 +55,31 @@ class FirebaseDatabaseService {
     try {
       CollectionReference _userCollection =
           await dbInstance.collection('users');
-      final snapShot = await _userCollection.where('id',isEqualTo: uId).get();
-      final userModel = snapShot.docs.map((doc)=> UserModel.fromJson(doc as QueryDocumentSnapshot<Map<String,dynamic>>) ).single;
+      final snapShot = await _userCollection.where('id', isEqualTo: uId).get();
+      final userModel = snapShot.docs
+          .map((doc) => UserModel.fromJson(
+              doc as QueryDocumentSnapshot<Map<String, dynamic>>))
+          .single;
       return userModel;
-
     } catch (e) {
       print('Something went wrong $e');
     }
     return null;
+  }
+
+  //Get All users in a database
+  Future<List<UserModel>> getAllUsersInADatabase() async {
+    try {
+      CollectionReference _userCollection =
+          await dbInstance.collection('users');
+      final snapshot = await _userCollection.get();
+      return await snapshot.docs
+          .map((doc) => UserModel.fromJson(
+              doc as QueryDocumentSnapshot<Map<String, dynamic>>))
+          .toList();
+    } catch (e) {
+      print('Something went wrong');
+    }
+    return [];
   }
 }
