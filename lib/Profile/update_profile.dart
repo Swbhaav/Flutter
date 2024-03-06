@@ -40,83 +40,86 @@ void setUserModelDataToFormControllers(BuildContext context){
         title: Text('Update Profile'),
         centerTitle: true,
       ),
-      body: Form(
-        child: ListView(
-          children: [
-            TextFormField(
-              controller: _fullNameController,
-              keyboardType: TextInputType.name,
-              maxLength: 50,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Enter your name",
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Form(
+          child: ListView(
+            children: [
+              TextFormField(
+                controller: _fullNameController,
+                keyboardType: TextInputType.name,
+                maxLength: 50,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Enter your name",
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please Enter Full Name';
+                  }
+                  return null;
+                },
               ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please Enter Full Name';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 10),
+              SizedBox(height: 10),
 
-            TextFormField(
-              controller: _emailAddressController,
-              keyboardType: TextInputType.emailAddress,
-              maxLength: 90,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Enter your Email",
+              TextFormField(
+                controller: _emailAddressController,
+                keyboardType: TextInputType.emailAddress,
+                maxLength: 90,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Enter your Email",
+                ),
+                validator: (emailValue) {
+                  if (emailValue == null || emailValue.trim().isEmpty) {
+                    return 'Please Enter Your Email';
+                  }
+                  final regex = RegExp(_emailRegexPattern);
+                  if (!regex.hasMatch(emailValue)) {
+                    return 'Please Enter a valid Email';
+                  }
+                  return null;
+                },
               ),
-              validator: (emailValue) {
-                if (emailValue == null || emailValue.trim().isEmpty) {
-                  return 'Please Enter Your Email';
-                }
-                final regex = RegExp(_emailRegexPattern);
-                if (!regex.hasMatch(emailValue)) {
-                  return 'Please Enter a valid Email';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 10),
-            TextFormField(
-              controller: _phoneNumberController,
-              keyboardType: TextInputType.phone,
-              maxLength: 10,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Enter your phone number',
+              SizedBox(height: 10),
+              TextFormField(
+                controller: _phoneNumberController,
+                keyboardType: TextInputType.phone,
+                maxLength: 10,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter your phone number',
+                ),
+                validator: (phoneNumberValue) {
+                  if (phoneNumberValue == null ||
+                      phoneNumberValue.trim().isEmpty) {
+                    return 'Please enter your phone number';
+                  }
+                  return null;
+                },
               ),
-              validator: (phoneNumberValue) {
-                if (phoneNumberValue == null ||
-                    phoneNumberValue.trim().isEmpty) {
-                  return 'Please enter your phone number';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              controller: _streetAddressController,
-              keyboardType: TextInputType.streetAddress,
-              maxLength: 30,
-              maxLines: 4,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Enter address",
+              SizedBox(height: 20),
+              TextFormField(
+                controller: _streetAddressController,
+                keyboardType: TextInputType.streetAddress,
+                maxLength: 30,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Enter address",
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please Enter Your Address';
+                  }
+                  return null;
+                },
               ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Please Enter Your Address';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 10,),
-            ElevatedButton(onPressed: (){}, child: Text('Update'),),
+              SizedBox(height: 10,),
+              ElevatedButton(onPressed: (){}, child: Text('Update'),),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

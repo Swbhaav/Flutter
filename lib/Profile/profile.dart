@@ -34,6 +34,12 @@ class _ProfileState extends State<Profile> {
       backgroundColor: Colors.blue,
       appBar: AppBar(
         title: Text('View Profile'),
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context).pushNamed('/users-list'),
+            icon: Icon(Icons.people),
+          )
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -160,7 +166,10 @@ class BasicDetails extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/update-profile',arguments: userModel,);
+              Navigator.of(context).pushNamed(
+                '/update-profile',
+                arguments: userModel,
+              );
             },
             child: Text('Update Profile'),
           ),
