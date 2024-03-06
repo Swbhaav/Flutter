@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form/Model/user_model.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +13,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  String? uId;
+  String uId = "";
 
   @override
   void initState() {
@@ -23,7 +24,7 @@ class _ProfileState extends State<Profile> {
   void initSharedPreferences() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      uId = prefs.getString('uId');
+      uId = prefs.getString('uId') ?? '';
     });
   }
 
@@ -36,45 +37,63 @@ class _ProfileState extends State<Profile> {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        child: FutureBuilder(
-            future: FirebaseDatabaseService()
-                .getUserDetailsUsingUID(uId: uId ?? ''),
-            builder: (context, snapshot) {
-
-              return ListView(
-                children: [
-                  ProfileImage(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  BasicDetails(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  MenuWidgets(
-                    title: 'Settings',
-                    onPressed: () {
-                      print('Settings Clicked');
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  MenuWidgets(
-                    title: 'Notifications',
-                    onPressed: () {
-                      print('Notifications Clicked');
-                    },
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  MenuWidgets(
-                    title: 'About App',
-                  ),
-                ],
-              );
-            }),
+        child: (uId.isNotEmpty)
+            ? FutureBuilder(
+                future: FirebaseDatabaseService()
+                    .getUserDetailsUsingUID(uId: uId ?? ''),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text('User Details not found'),
+                      );
+                    }
+                    if (snapshot.hasData) {
+                      final userModel = snapshot.data;
+                      return ListView(
+                        children: [
+                          ProfileImage(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          BasicDetails(
+                            userModel: userModel,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          MenuWidgets(
+                            title: 'Settings',
+                            onPressed: () {
+                              print('Settings Clicked');
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          MenuWidgets(
+                            title: 'Notifications',
+                            onPressed: () {
+                              print('Notifications Clicked');
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          MenuWidgets(
+                            title: 'About App',
+                          ),
+                        ],
+                      );
+                    }
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                })
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
       ),
     );
   }
@@ -96,6 +115,8 @@ class ProfileImage extends StatelessWidget {
 
 ///This is the widget for displaying the basic details of the user
 class BasicDetails extends StatelessWidget {
+  BasicDetails({required this.userModel});
+  final UserModel? userModel;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -119,23 +140,30 @@ class BasicDetails extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Name: '),
+          userModel != null
+              ? Text('Name:${userModel!.fullName}')
+              : Text('Name:-'),
           SizedBox(
             height: 5,
           ),
-          Text('Email: '),
+          userModel != null
+              ? Text('Phone:${userModel!.phoneNumber} ')
+              : Text('Phone:-'),
           SizedBox(
             height: 5,
           ),
-          Text('Phone: '),
+          userModel != null
+              ? Text('Address:${userModel!.address} ')
+              : Text('Address:-'),
           SizedBox(
-            height: 5,
+            height: 30,
           ),
-          Text('Address: '),
-          SizedBox(
-            height: 5,
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed('/update-profile',arguments: userModel,);
+            },
+            child: Text('Update Profile'),
           ),
-          Text('Gender: '),
         ],
       ),
     );

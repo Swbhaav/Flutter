@@ -24,13 +24,12 @@ class _LoginState extends State<Login> {
     super.initState();
   }
   void checkIfUserIsLoggedIn()async {
-    //Obtain shared preference
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     final user = await FirebaseAuthService().getLoggedInUser();
     if(user!=null){
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('uId', user.uid);
-      Navigator.of(context).pushNamed('mainApp');
+      Navigator.of(context).pushNamed('/mainApp');
     }
   }
 
@@ -108,7 +107,9 @@ class _LoginState extends State<Login> {
                           final User? user = await firebaseAuthService.loginWithEmailAndPassword(username, password);
                           if(user != null){
                             print('login successful');
-                            Navigator.of(context).pushNamed('/Profile');
+                            final SharedPreferences prefs= await SharedPreferences.getInstance();
+                            await prefs.setString('uId', user.uid);
+                            Navigator.of(context).pushReplacementNamed('/mainApp');
                           }else{
                             print('login error');
                           }

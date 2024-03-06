@@ -24,8 +24,8 @@ class UserModel{
   factory UserModel.fromJson(QueryDocumentSnapshot<Map<String,dynamic>>documentSnapshot){
     final data = documentSnapshot.data();
     return UserModel(
-      fullName: data['full_name'],
-      phoneNumber: data['phone_number'],
+      fullName: data['full_Name'],
+      phoneNumber: data['phone_Number'],
       address: data['address'],
     );
 

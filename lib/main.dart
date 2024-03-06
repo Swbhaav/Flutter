@@ -1,5 +1,6 @@
 import 'dart:js';
 
+import 'package:form/Profile/update_profile.dart';
 import 'package:form/list_view_page.dart';
 import 'package:form/dashboard.dart';
 import 'package:form/login.dart';
@@ -27,6 +28,7 @@ void main() {
       '/List_view': (context) => ListView(),
       '/mainApp': (context) => MyApp(),
       '/Profile': (context) => Profile(),
+      '/update-profile': (context) => UpdateProfile(),
     },
 
     debugShowCheckedModeBanner: false,

@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:form/service/firebase_auth_service.dart';
-
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -15,10 +13,10 @@ class Dashboard extends StatelessWidget {
         actions: [
           GestureDetector(
             child: Icon(Icons.logout),
-            onTap: () async{
+            onTap: () async {
               await showDialog(
                   context: dashboardContext,
-                  builder: (BuildContext dialogContext){
+                  builder: (BuildContext dialogContext) {
                     return AlertDialog(
                       title: Text('Signout Dialog'),
                       icon: Icon(Icons.warning),
@@ -26,22 +24,27 @@ class Dashboard extends StatelessWidget {
                       actions: [
                         GestureDetector(
                           child: Text('Yes'),
-                          onTap: (){
+                          onTap: () async {
                             final firebaseAuthService = FirebaseAuthService();
                             firebaseAuthService.signOutUser();
+                            final SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.remove('uId');
+
                             Navigator.of(dialogContext).pop();
-                            Navigator.of(dashboardContext).pushReplacementNamed('/Login');
+                            Navigator.of(dashboardContext)
+                                .pushReplacementNamed('/Login');
                           },
                         ),
                         GestureDetector(
                           child: Text('No'),
-                          onTap: (){
+                          onTap: () {
                             Navigator.of(dialogContext).pop();
-                          },),
+                          },
+                        ),
                       ],
                     );
-                  }
-              );
+                  });
             },
           ),
         ],
