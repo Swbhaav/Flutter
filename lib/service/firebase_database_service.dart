@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:form/Model/user_model.dart';
 
@@ -81,5 +83,52 @@ class FirebaseDatabaseService {
       print('Something went wrong');
     }
     return [];
+  }
+
+  //Update a user in firebase database
+  Future<UserModel?> updateUserUsingUID(
+      {required String uID, required UserModel userModel}) async {
+    try {
+      CollectionReference _userCollection =
+          await dbInstance.collection('users');
+      final documentSnapShot =
+          await _userCollection.where('id', isEqualTo: uID).get();
+      if (documentSnapShot.docs.isNotEmpty) {
+        final documentId = documentSnapShot.docs.single.id;
+        await _userCollection.doc(documentId).update(userModel.toJson());
+        final userModelResponse = await documentSnapShot.docs
+            .map((doc) => UserModel.fromJson(
+                doc as QueryDocumentSnapshot<Map<String, dynamic>>))
+            .single;
+        return userModelResponse;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Something went wrong');
+    }
+    return null;
+  }
+
+  //Delete a user in firebase database
+  Future<List<UserModel>?> deleteUserUsingUID({required String uID}) async {
+    try {
+      CollectionReference _userCollection =
+          await dbInstance.collection('users');
+      final documentSnapShot =
+          await _userCollection.where('id', isEqualTo: uID).get();
+      if (documentSnapShot.docs.isNotEmpty) {
+        final documentId = documentSnapShot.docs.first.id;
+        await _userCollection.doc(documentId).delete();
+        return await documentSnapShot.docs
+            .map((doc) => UserModel.fromJson(
+                doc as QueryDocumentSnapshot<Map<String, dynamic>>))
+            .toList();
+      } else {
+        return [];
+      }
+    } catch (e) {
+      print('something went wrong');
+    }
   }
 }

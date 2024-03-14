@@ -1,6 +1,11 @@
 
+import 'dart:html';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form/Model/user_model.dart';
+import 'package:form/service/firebase_database_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdateProfile extends StatelessWidget {
    UpdateProfile({super.key});
@@ -29,6 +34,11 @@ void setUserModelDataToFormControllers(BuildContext context){
     {
       _streetAddressController.text= usermodelDetails.address!;
     }
+    if(usermodelDetails.email!=null)
+    {
+      _emailAddressController.text= usermodelDetails.email!;
+    }
+
   }
 }
 
@@ -116,7 +126,30 @@ void setUserModelDataToFormControllers(BuildContext context){
                 },
               ),
               SizedBox(height: 10,),
-              ElevatedButton(onPressed: (){}, child: Text('Update'),),
+              ElevatedButton(onPressed: () async{
+                if(_formKey.currentState!=null){
+                  if(_formKey.currentState!.validate()){
+                    _formKey.currentState!.save();
+
+                    final SharedPreferences prefs= await SharedPreferences.getInstance();
+                    String? userId = prefs.getString('uId');
+
+                    final userModelRequest = UserModel(
+                      id: userId,
+                      fullName: _fullNameController.text,
+                      phoneNumber: int.parse(_phoneNumberController.text),
+                      address: _streetAddressController.text,
+                      email: _emailAddressController.text,
+                    );
+                    final firebaseDatabaseService = FirebaseDatabaseService();
+                    if(userId != null){
+                      final userModelResponse = await firebaseDatabaseService.updateUserUsingUID(uID: userId, userModel: userModelRequest);
+                    }
+
+                  }
+                }
+
+              }, child: Text('Update'),),
 
             ],
           ),
