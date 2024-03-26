@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:form/controller/counter_controller.dart';
 import 'package:form/service/firebase_auth_service.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatelessWidget {
@@ -7,6 +9,7 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext dashboardContext) {
+    final CounterController counterController = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: Text('Dashboard'),
@@ -50,7 +53,33 @@ class Dashboard extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Text(' This is the Dashboard'),
+        child: Column(
+          children: [
+            Obx(
+                    () {
+                return Text('The counter value is ${counterController.counter}');
+              }
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            IconButton(
+              icon: Icon(Icons.add),
+              onPressed: () {
+                counterController.increment();
+              },
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            IconButton(
+              icon: Icon(Icons.remove),
+              onPressed: () {
+                counterController.decrement();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

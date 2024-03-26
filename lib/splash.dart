@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'controller/counter_controller.dart';
 
 class splash extends StatefulWidget {
   const splash({super.key});
@@ -18,6 +21,7 @@ class _splashState extends State<splash> {
   }
 
   Widget build(BuildContext context) {
+    Get.put(CounterController());
     return Scaffold(
       body: Center(
         child: Image.asset('assets/images/infinity.gif'),
