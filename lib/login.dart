@@ -1,40 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:form/controller/login_controller.dart';
 import 'package:form/service/firebase_auth_service.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Login extends StatefulWidget {
-   const Login({super.key});
-
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
-  final _formKey = GlobalKey<FormState>();
-
-  final _usernameController = TextEditingController();
-
-  final _passwordController = TextEditingController();
-
-  bool _isChecked = false;
-  @override
-  void initState() {
-    checkIfUserIsLoggedIn();
-    super.initState();
-  }
-  void checkIfUserIsLoggedIn()async {
-
-    final user = await FirebaseAuthService().getLoggedInUser();
-    if(user!=null){
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('uId', user.uid);
-      Navigator.of(context).pushNamed('/mainApp');
-    }
-  }
+class Login extends StatelessWidget{
+  const Login({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final LoginController loginController = Get.put(LoginController());
+    loginController.checkIfUserIsLoggedIn(context);
+    print('Build Called');
     return Scaffold(
       appBar: AppBar(
         title: Text('Login'),
@@ -44,19 +22,17 @@ class _LoginState extends State<Login> {
         child: Column(
           children: [
             TextFormField(
-              controller: _usernameController,
+              controller: loginController.usernameController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                  ),
-                  labelText: 'Enter your username'
-              ),
+                  border: OutlineInputBorder(),
+                  labelText: 'Enter your username'),
             ),
             SizedBox(
               height: 20,
             ),
             TextFormField(
-              controller: _passwordController,
+              controller: loginController.passwordController,
               obscureText: true,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
@@ -70,24 +46,20 @@ class _LoginState extends State<Login> {
             Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-
                 FractionallySizedBox(
                   widthFactor: 0.2,
-                  child: Checkbox(
-                    value: _isChecked,
-                    onChanged: (newValue){
-                      print('New Value $newValue');
-                      if(newValue!=null){
-                        setState(() {
-                          _isChecked = newValue;
-                        });
-
-                      }
-
-                    },
-                  ),
+                  child: Obx(() {
+                    return Checkbox(
+                      value: loginController.isChecked.value,
+                      onChanged: (newValue) {
+                        print('New Value $newValue');
+                        if (newValue != null) {
+                          loginController.isChecked.value = newValue;
+                        }
+                      },
+                    );
+                  }),
                 ),
-
                 FractionallySizedBox(
                     widthFactor: 0.8,
                     child: Text('Agree to all conditions of the app?')),
@@ -98,27 +70,7 @@ class _LoginState extends State<Login> {
                 FractionallySizedBox(
                   widthFactor: 0.3,
                   child: ElevatedButton(
-                    onPressed: () async{
-                      if(_isChecked!=null){
-                        if(_isChecked){
-                          final username = _usernameController.text;
-                          final password = _passwordController.text;
-                          final firebaseAuthService = FirebaseAuthService();
-                          final User? user = await firebaseAuthService.loginWithEmailAndPassword(username, password);
-                          if(user != null){
-                            print('login successful');
-                            final SharedPreferences prefs= await SharedPreferences.getInstance();
-                            await prefs.setString('uId', user.uid);
-                            Navigator.of(context).pushReplacementNamed('/mainApp');
-                          }else{
-                            print('login error');
-                          }
-//proceed
-                        }else{
-                          print('Please check the terms');
-                        }
-                      }
-                    },
+                    onPressed: () => loginController.handleLogin(context),
                     child: Text('Login'),
                   ),
                 ),
@@ -128,8 +80,8 @@ class _LoginState extends State<Login> {
                 FractionallySizedBox(
                   widthFactor: 0.3,
                   child: ElevatedButton(
-                    onPressed: (){},
-                    child:Text('Reset'),
+                    onPressed: () {},
+                    child: Text('Reset'),
                   ),
                 ),
                 FractionallySizedBox(
@@ -138,8 +90,9 @@ class _LoginState extends State<Login> {
                 FractionallySizedBox(
                   widthFactor: 0.3,
                   child: ElevatedButton(
-                    onPressed: ()=> Navigator.of(context).pushNamed('/Register'),
-                    child:Text('Signup'),
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed('/Register'),
+                    child: Text('Signup'),
                   ),
                 )
               ],

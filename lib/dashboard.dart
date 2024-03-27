@@ -1,5 +1,8 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:form/controller/counter_controller.dart';
+import 'package:form/controller/sample_list_controller.dart';
 import 'package:form/service/firebase_auth_service.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,10 +13,19 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext dashboardContext) {
     final CounterController counterController = Get.find();
+    final SampleListController sampleListController =
+        Get.put(SampleListController());
     return Scaffold(
       appBar: AppBar(
         title: Text('Dashboard'),
         actions: [
+          IconButton(
+              onPressed: () => sampleListController.insertDataIntoList('hello'),
+              icon: Icon(Icons.add)),
+          SizedBox(width: 10),
+          IconButton(
+              onPressed: () => sampleListController.deleteDataFromList('Hello'),
+              icon: Icon(Icons.remove)),
           GestureDetector(
             child: Icon(Icons.logout),
             onTap: () async {
@@ -52,35 +64,18 @@ class Dashboard extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Obx(
-                    () {
-                return Text('The counter value is ${counterController.counter}');
-              }
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            IconButton(
-              icon: Icon(Icons.add),
-              onPressed: () {
-                counterController.increment();
-              },
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            IconButton(
-              icon: Icon(Icons.remove),
-              onPressed: () {
-                counterController.decrement();
-              },
-            ),
-          ],
-        ),
-      ),
+      body: Obx(() {
+        return ListView.builder(
+            itemCount: sampleListController.sampleList.length,
+            itemBuilder: (context, index) {
+              final sampleData = sampleListController.sampleList[index];
+              return Container(
+                color: Colors.grey.withOpacity(0.3),
+                padding: EdgeInsets.all(10),
+                child: Text('$sampleData'),
+              );
+            });
+      }),
     );
   }
 }

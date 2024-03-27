@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form/Model/user_model.dart';
@@ -13,7 +12,8 @@ class RegistrationForm extends StatelessWidget {
   final _phoneNumberController = TextEditingController();
   final _passwordController = TextEditingController();
   final _streetAddressController = TextEditingController();
-  final _emailRegexPattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+  final _emailRegexPattern =
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,8 +117,8 @@ class RegistrationForm extends StatelessWidget {
                 ListTile(
                     title: Text('this is listTile'),
                     subtitle: Text('This is subtitle'),
-                    leading: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa14vJmR5wBRZZEydhuuDSIceDoCd8fMrkXw&usqp=CAU')
-                ),
+                    leading: Image.network(
+                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa14vJmR5wBRZZEydhuuDSIceDoCd8fMrkXw&usqp=CAU')),
                 SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () async {
@@ -128,23 +128,24 @@ class RegistrationForm extends StatelessWidget {
                         final password = _passwordController.text;
 
                         final firebaseAuthService = FirebaseAuthService();
-                        final User? user= await firebaseAuthService.createUserWithEmailAndPassword(email, password);
+                        final User? user = await firebaseAuthService
+                            .createUserWithEmailAndPassword(email, password);
 
-                        if(user!=null){
+                        if (user != null) {
                           final userModel = UserModel(
                             id: user.uid,
                             fullName: _fullNameController.text,
                             phoneNumber: int.parse(_phoneNumberController.text),
                             address: _streetAddressController.text,
                           );
-                          final firebaseDatabaseService= FirebaseDatabaseService();
-                          firebaseDatabaseService.createUser(userModel: userModel);
+                          final firebaseDatabaseService =
+                              FirebaseDatabaseService();
+                          firebaseDatabaseService.createUser(
+                              userModel: userModel);
                           Navigator.of(context).pushReplacementNamed('/login');
-                        }
-                        else{
+                        } else {
                           print('Error');
                         }
-
                       }
                     }
                   },
@@ -156,6 +157,5 @@ class RegistrationForm extends StatelessWidget {
         ),
       ),
     );
-
   }
 }
