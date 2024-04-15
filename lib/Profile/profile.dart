@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:form/Model/user_model.dart';
+import 'package:form/controller/user_controller.dart';
+import 'package:get/get.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,20 +16,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  String uId = "";
+  final UserController userController = Get.put(UserController());
 
-  @override
-  void initState() {
-    initSharedPreferences();
-    super.initState();
-  }
-
-  void initSharedPreferences() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      uId = prefs.getString('uId') ?? '';
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,65 +32,50 @@ class _ProfileState extends State<Profile> {
           )
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        child: (uId.isNotEmpty)
-            ? FutureBuilder(
-                future: FirebaseDatabaseService()
-                    .getUserDetailsUsingUID(uId: uId ?? ''),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasError) {
-                      return Center(
-                        child: Text('User Details not found'),
-                      );
-                    }
-                    if (snapshot.hasData) {
-                      final userModel = snapshot.data;
-                      return ListView(
-                        children: [
-                          ProfileImage(),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          BasicDetails(
-                            userModel: userModel,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          MenuWidgets(
-                            title: 'Settings',
-                            onPressed: () {
-                              print('Settings Clicked');
-                            },
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          MenuWidgets(
-                            title: 'Notifications',
-                            onPressed: () {
-                              print('Notifications Clicked');
-                            },
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          MenuWidgets(
-                            title: 'About App',
-                          ),
-                        ],
-                      );
-                    }
-                  }
-                  return Center(
+      body: Obx(() {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            child: (userController.uId.value.isNotEmpty)
+                ? ListView(
+              children: [
+                ProfileImage(),
+                SizedBox(
+                  height: 20,
+                ),
+                BasicDetails(
+                  userModel: userController.userModel.value,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                MenuWidgets(
+                  title: 'Settings',
+                  onPressed: () {
+                    print('Settings Clicked');
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                MenuWidgets(
+                  title: 'Notifications',
+                  onPressed: () {
+                    print('Notifications Clicked');
+                  },
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                MenuWidgets(
+                  title: 'About App',
+                ),
+              ],
+            )
+                : Center(
                     child: CircularProgressIndicator(),
-                  );
-                })
-            : Center(
-                child: CircularProgressIndicator(),
-              ),
+                  ),
+          );
+        }
       ),
     );
   }

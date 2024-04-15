@@ -20,7 +20,7 @@ class Dashboard extends StatelessWidget {
         title: Text('Dashboard'),
         actions: [
           IconButton(
-              onPressed: () => sampleListController.insertDataIntoList('hello'),
+              onPressed: () => sampleListController.insertDataIntoList('Hello'),
               icon: Icon(Icons.add)),
           SizedBox(width: 10),
           IconButton(

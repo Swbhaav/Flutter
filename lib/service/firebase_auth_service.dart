@@ -36,6 +36,8 @@ class FirebaseAuthService{
     }
   }
 
+
+
   Future<User?>getLoggedInUser()async{
     //Create a completer to handel asynchronous operation
     Completer<User?> completer= Completer<User?>();
